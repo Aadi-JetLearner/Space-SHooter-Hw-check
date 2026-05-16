@@ -2,6 +2,8 @@ import pygame
 pygame.init()
 Screen = pygame.display.set_mode((1000,500))
 pygame.display.set_caption("1v1 Sim")
+frps = 40
+clock = pygame.time.Clock()
 b = []
 m_b = 4
 R3 = pygame.image.load("C:/Users/vijay/OneDrive/Desktop/Python Game Developer/images/R3.webp")
@@ -31,12 +33,12 @@ def move_spaceship(keys,R):
 
 def move_bullets(R,b):
     for i in b:
-        i.x = i.x - 2.3
-        if i.x < 0:
+        i.y = i.y - 2.3
+        if i.y < 0:
             b.remove(i)
-            score = score - 1
+            #score = score - 1
         if i.colliderect(R):
-            score = score -1
+            #score = score -1
             b.remove(i)
 
 
@@ -90,18 +92,20 @@ def move_bullets(R,b):
 
 
 while(1):
+    clock.tick(290)
     for i in pygame.event.get():
         if i.type == pygame.QUIT:
             pygame.quit()
+        if i.type == pygame.KEYDOWN:
+             if i.key == pygame.K_SPACE:
+                 if len(b) < m_b:
+                     bb = pygame.Rect(R.x,R.y - 50,5,10)
+                     b.append(bb)
 
-    img_add(R)
+    img_add(R) 
     move_bullets(R,b)
     keys = pygame.key.get_pressed()
     pygame.display.update()
     move_spaceship(keys,R)
-    if i.type == pygame.KEYDOWN:
-        if i.key == pygame.K_SPACE:
-            if len(b) < m_b:
-                bb = pygame.Rect(R.x,R.y,10,5)
-                b.append(bb)
+
     pygame.display.update()
